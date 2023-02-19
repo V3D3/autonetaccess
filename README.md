@@ -37,4 +37,6 @@ Possible features:
 3. reduce the extra disk read when writing credentials for the first time.
 4. allow duration selection.
 5. disable cron job/authorizing when not on netaccess-supporting network.
-6. load a cat gif when successfully authorized
+6. handle json format errors.
+7. make connection failures more graceful.
+8. load a cat gif when successfully authorized
