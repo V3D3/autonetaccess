@@ -1,11 +1,12 @@
 # autonetaccess
-Requires: python3: requests, urllib3
+**Requires:** python3: requests, urllib3
 
-Usage: run using python (`python main.py`).
+**Usage:** run using python (`python main.py`).
 
-Caution: saves credentials in plaintext as `cred.json` in the directory from which it is executed. Changing permissions on this file is recommended.
+**Caution:** saves credentials in plaintext as `cred.json` in the directory from which it is executed. Changing permissions on this file is recommended.
 
-Setting up automatic approval: set up a cron job. Steps:
+## Automation
+Steps for setting up a cron job:
 
 0. Run the script once, so that `cred.json` is created.
 1. Install cron (`cronie` - for `apt`-using distros, run `apt install cronie`).
@@ -24,7 +25,16 @@ Setting up automatic approval: set up a cron job. Steps:
 
 6. Verify that crontab is correctly saved: `crontab -l`. That's all!
 
-Failure:
+##  Failure:
 - Auth failure/JSON error? Remove `cred.json` from the script folder. Run it manually again.
 - crontab listing showed nothing? Are you using VS Code as your default editor? Please use a command-line editor. Temporarily change it back by exporting `EDITOR` and `VISUAL` to `vim`, `vi`, or `nano`. Then edit crontab again (step 3).
 - Can't tell which failure it is? Check `/tmp/cron.log`. If it doesn't exist, cron has not executed the job.
+
+## Contribution: PRs are welcome!
+Possible features:
+1. de-authorize before authorizing again: (netaccess does not seem to extend duration on reauthorizing).
+2. store creds in a more secure fashion.
+3. reduce the extra disk read when writing credentials for the first time.
+4. allow duration selection.
+5. disable cron job/authorizing when not on netaccess-supporting network.
+6. load a cat gif when successfully authorized
