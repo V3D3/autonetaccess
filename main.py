@@ -42,11 +42,26 @@ def approve (username, password):
 		return PASS
 	except r.ConnectionError:
 		return FAIL_REQUEST
+	
+def validate_json (obj):
+	if ('username' not in obj):
+		return False
+	if ('password' not in obj):
+		return False
+
+	if (len (obj['password']) == 0):
+		return False
+	if (len (obj['username']) == 0):
+		return False
+
+	return True
 
 
 # does cred file exist?
 import os, json
 MYPATH = os.path.dirname (__file__)
+if (MYPATH == ''):
+	MYPATH = '.'
 cred_file = '/cred.json'
 FILEPATH = MYPATH + cred_file
 
@@ -56,11 +71,16 @@ try:
 	# read cred file
 	with open (FILEPATH, 'r') as inf:
 		cred = json.load (inf)
+	
+	if (not validate_json (cred)):
+		os.remove (FILEPATH)
+		print ("Credential file corrupted. Removing.")
+		raise (FileNotFoundError)
 except FileNotFoundError:
 	# create cred file
 	print ('Enter your LDAP username: ', end='')
 	username = input ()
-	password = getpass ("Enter your LDAP password: ")
+	password = getpass ("Enter your LDAP password (not shown while typing): ")
 
 	cred = {'username':username, 'password':password}
 	
